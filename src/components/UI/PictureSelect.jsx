@@ -26,6 +26,7 @@ export default function UploadButtons() {
       const fileArr = [];
       Object.values(files).forEach((file) => {
         // making unique filename
+        // this way user can upload the same images multiple times
         const now = new Date();
         const unixTimeStamp = now.getTime();
         const newFileName = file.name + "_" + unixTimeStamp;
