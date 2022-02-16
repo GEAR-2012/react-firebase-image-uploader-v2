@@ -1,25 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { Container } from "@mui/material";
+import Header from "./components/UI/Header";
+import Upload from "./components/pages/Upload";
+import Home from "./components/pages/Home";
+import { Route, Routes } from "react-router-dom";
+import NotFound from "./components/pages/NotFound";
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <React.Fragment>
+      <Header />
+      <Container maxWidth="lg">
+        <Routes>
+          <Route path="*" element={<NotFound />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/upload" element={<Upload />} />
+        </Routes>
+      </Container>
+    </React.Fragment>
   );
-}
+};
 
 export default App;
