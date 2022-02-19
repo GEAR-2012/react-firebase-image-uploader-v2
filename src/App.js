@@ -1,10 +1,11 @@
 import React from "react";
 import { Container } from "@mui/material";
 import Header from "./components/UI/Header";
-import Upload from "./components/pages/Upload";
+import CreateProduct from "./components/pages/CreateProduct";
 import Home from "./components/pages/Home";
 import { Route, Routes } from "react-router-dom";
 import NotFound from "./components/pages/NotFound";
+import Product from "./components/pages/Product";
 
 const App = () => {
   return (
@@ -14,7 +15,8 @@ const App = () => {
         <Routes>
           <Route path="*" element={<NotFound />} />
           <Route path="/" element={<Home />} />
-          <Route path="/upload" element={<Upload />} />
+          <Route path="create" element={<CreateProduct />} />
+          <Route path="product/:id" element={<Product />} />
         </Routes>
       </Container>
     </React.Fragment>

@@ -1,15 +1,15 @@
 import { deleteDoc, doc } from "firebase/firestore";
 import { deleteObject, ref } from "firebase/storage";
 import { useEffect } from "react";
-import { db, storage } from "../firebase-config";
+import { db, storage } from "../../firebase-config";
 
-const useDeletePicture = (folder, documentId, documentName) => {
+const useDeletePictureTemp = (folder, documentId, documentName) => {
   useEffect(() => {
     if (folder && documentId && documentName) {
       // references
       try {
-        const itemRef = ref(storage, `${folder}/${documentName}`);
-        const docRef = doc(db, folder, documentId);
+        const itemRef = ref(storage, `${folder}/${documentName}`); // storage
+        const docRef = doc(db, folder, documentId); // db
         // delete from storage
         deleteObject(itemRef)
           .then(() => {
@@ -30,4 +30,4 @@ const useDeletePicture = (folder, documentId, documentName) => {
   }, [folder, documentId, documentName]);
 };
 
-export default useDeletePicture;
+export default useDeletePictureTemp;

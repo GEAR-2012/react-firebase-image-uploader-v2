@@ -9,7 +9,7 @@ import { AppState } from "../../state/app-context";
 
 const menuList = [
   { name: "Home", route: "/" },
-  { name: "Picture Upload", route: "/upload" },
+  { name: "Create Product", route: "/create" },
 ];
 
 const SideDrawer = () => {

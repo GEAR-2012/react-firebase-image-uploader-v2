@@ -1,17 +1,23 @@
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, arrayUnion, collection, doc, updateDoc } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { useEffect, useState } from "react";
-import { db, storage, timestamp } from "../firebase-config";
+import { db, storage } from "../firebase-config";
 import { AppState } from "../state/app-context";
 
-const uploadFn = async (folder, fileObj, setProgressArr, index) => {
+const uploadPicture = (folder, fileObj, setProgressArr, index, docId) => {
   // get file object & file name from 'fileObj'
   const file = fileObj.file;
   const fileName = fileObj.name;
 
   // References
   const storageRef = ref(storage, `${folder}/${fileName}`);
-  const collectionRef = collection(db, folder);
+  let docRef;
+  let collectionRef;
+  if (docId) {
+    docRef = doc(db, folder, docId);
+  } else {
+    collectionRef = collection(db, folder);
+  }
 
   const uploadTask = uploadBytesResumable(storageRef, file);
 
@@ -31,14 +37,14 @@ const uploadFn = async (folder, fileObj, setProgressArr, index) => {
     },
     () => {
       getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-        const urlObj = { name: fileName, url: downloadURL, createdAt: timestamp() };
-        addDoc(collectionRef, urlObj);
+        const urlObj = { name: fileName, url: downloadURL };
+        updateDoc(docRef, { pictureList: arrayUnion(urlObj) });
       });
     }
   );
 };
 
-const useUploadPictures = (folderName, fileListArr) => {
+const useUploadPictures = (folderName, fileListArr, docId) => {
   const { setProgress } = AppState();
   const [fileCount, setFileCount] = useState(0);
   const [progressArr, setProgressArr] = useState([]);
@@ -59,10 +65,10 @@ const useUploadPictures = (folderName, fileListArr) => {
   useEffect(() => {
     if (fileListArr && folderName) {
       fileListArr.forEach((fileObj, index) => {
-        uploadFn(folderName, fileObj, setProgressArr, index);
+        uploadPicture(folderName, fileObj, setProgressArr, index, docId);
       });
     }
-  }, [fileListArr, folderName]);
+  }, [fileListArr, folderName, docId]);
 
   // calculate total progress & set into app state
   useEffect(() => {

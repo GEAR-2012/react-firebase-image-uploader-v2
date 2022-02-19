@@ -5,7 +5,7 @@ import LinearProgress from "@mui/material/LinearProgress";
 const ProgressLinear = ({ progress }) => {
   return (
     <Box sx={{ width: "100%" }}>
-      <LinearProgress variant="determinate" value={progress} />
+      <LinearProgress variant="determinate" color="secondary" value={progress} />
     </Box>
   );
 };
