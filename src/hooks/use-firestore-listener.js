@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import { db } from "../firebase-config";
+import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 
 const useFirestoreListener = (folderName) => {
   const [docs, setDocs] = useState();

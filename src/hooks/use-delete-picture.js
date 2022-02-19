@@ -1,9 +1,9 @@
-import { arrayRemove, doc, updateDoc } from "firebase/firestore";
-import { deleteObject, ref } from "firebase/storage";
 import { useEffect } from "react";
 import { db, storage } from "../firebase-config";
+import { arrayRemove, doc, updateDoc } from "firebase/firestore";
+import { deleteObject, ref } from "firebase/storage";
 
-const useDeletePictureFromDoc = (folderName, docId, pic) => {
+const useDeletePicture = (folderName, docId, pic) => {
   useEffect(() => {
     const deleteFromFirestore = (folder, id, url, name) => {
       // reference
@@ -31,4 +31,4 @@ const useDeletePictureFromDoc = (folderName, docId, pic) => {
   }, [folderName, docId, pic]);
 };
 
-export default useDeletePictureFromDoc;
+export default useDeletePicture;

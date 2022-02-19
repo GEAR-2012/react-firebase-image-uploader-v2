@@ -1,47 +1,70 @@
-import { Button, Grid, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { Button, Grid, Typography } from "@mui/material";
+import SellIcon from "@mui/icons-material/Sell";
 import MasonryImageList from "../UI/MasonryImageGrid";
 import ProgressCircular from "../UI/ProgressCircular";
-import useDeletePictureFromDoc from "../../hooks/use-delete-picture-from-doc";
-import useFirestoreListener from "../../hooks/use-firestore-listener";
 import PictureSelect from "../UI/PictureSelect";
-import { AppState } from "../../state/app-context";
 import ProgressLinear from "../UI/ProgressLinear";
 import useDeleteDoc from "../../hooks/use-delete-doc";
+import useFirestoreListener from "../../hooks/use-firestore-listener";
+import useDeletePicture from "../../hooks/use-delete-picture";
+import sortByFileName from "../functions/sortByFileName";
+import { AppState } from "../../state/app-context";
 
 const Product = () => {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const { progress } = AppState();
+  const { progress, setProgress, currency } = AppState();
 
   const [picToDelete, setPicToDelete] = useState("");
   const [docIdToDelete, setDocIdToDelete] = useState("");
-
   const [docObj, setDocObj] = useState();
+  const [picList, setPicList] = useState();
 
+  // extract pictures from 'docObj' to sort by name
+  useEffect(() => {
+    if (docObj) {
+      const sortedPictures = sortByFileName(docObj.pictureList);
+
+      setPicList(sortedPictures);
+    }
+  }, [docObj]);
+
+  // get all document from a collection
   const { docs: products, err } = useFirestoreListener("Products");
-  useDeleteDoc("Products", docIdToDelete).then((resp) => {
-    // redirect
-    if (resp === true) navigate("/");
-  });
 
   if (err) {
     console.log(err);
   }
 
+  // custom hook to delete a document
+  useDeleteDoc("Products", docIdToDelete).then((resp) => {
+    // redirect
+    if (resp === true) {
+      navigate("/");
+    }
+  });
+
+  // custom hook to delete one picture
+  useDeletePicture("Products", id, picToDelete);
+
+  // find the actual product in products
+  // & display it to the screen
   useEffect(() => {
     if (products) {
-      setDocObj(
-        products.find((prod) => {
-          return prod.id === id;
-        })
-      );
+      let product = products.find((prod) => prod.id === id);
+      setDocObj(product);
     }
   }, [products, id]);
 
-  useDeletePictureFromDoc("Products", id, picToDelete);
+  // clean up effect
+  useEffect(() => {
+    return () => {
+      setProgress(0);
+    };
+  }, [setProgress]);
 
   const onDeletePictureHandler = (pic) => {
     setPicToDelete(pic);
@@ -49,6 +72,10 @@ const Product = () => {
 
   const deleteProductHandler = () => {
     setDocIdToDelete(id);
+  };
+
+  const updateProductHandler = () => {
+    navigate(`/product_update/${id}`);
   };
 
   return (
@@ -67,8 +94,17 @@ const Product = () => {
             </Typography>
           </Grid>
           <Grid item xs={12}>
+            <Typography variant="h5" sx={{ textTransform: "uppercase" }}>
+              {currency}
+              {docObj.price} <SellIcon sx={{ color: "green" }} />
+            </Typography>
+          </Grid>
+          <Grid item xs={12} sx={{ display: "flex", gap: "1rem" }}>
             <Button onClick={deleteProductHandler} variant="contained" color="error">
               Delete This Product
+            </Button>
+            <Button onClick={updateProductHandler} variant="contained">
+              Update This Product
             </Button>
           </Grid>
           <Grid item xs={12}>
@@ -79,9 +115,9 @@ const Product = () => {
               <ProgressLinear progress={progress} />
             </Grid>
           )}
-          {docObj.pictureList.length > 0 && (
+          {picList && (
             <Grid item xs={12}>
-              <MasonryImageList itemData={docObj.pictureList} onDelete={onDeletePictureHandler} />
+              <MasonryImageList itemData={picList} onDelete={onDeletePictureHandler} />
             </Grid>
           )}
         </>

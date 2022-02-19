@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { Button, Grid, Typography } from "@mui/material";
-import ProductForm from "../forms/ProductForm";
-import uuid from "react-uuid";
-import useSetDoc from "../../hooks/use-set-doc";
 import { useNavigate } from "react-router-dom";
+import uuid from "react-uuid";
+import { Grid, Typography } from "@mui/material";
+import ProductForm from "../forms/ProductForm";
+import useSetDoc from "../../hooks/use-set-doc";
 
 const CreateProduct = () => {
   const navigate = useNavigate();
@@ -14,7 +14,7 @@ const CreateProduct = () => {
 
   useSetDoc("Products", uploadData, docId).then((resp) => {
     // redirect
-    if (resp === true) navigate("/");
+    if (resp === true) navigate(`/product/${docId}`);
   });
 
   const createHandler = () => {
@@ -27,12 +27,12 @@ const CreateProduct = () => {
         <Typography variant="h3">Create a new Product</Typography>
       </Grid>
       <Grid item xs={12}>
-        <ProductForm setUploadData={setUploadData} uploadData={uploadData} />
-      </Grid>
-      <Grid item xs={12}>
-        <Button variant="contained" type="button" onClick={createHandler}>
-          Create Product
-        </Button>
+        <ProductForm
+          buttonText="Create Product"
+          setInputData={setUploadData}
+          inputData={uploadData}
+          onSubmit={createHandler}
+        />
       </Grid>
     </Grid>
   );

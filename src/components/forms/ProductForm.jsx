@@ -1,4 +1,4 @@
-import { TextField } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import React from "react";
 
@@ -11,19 +11,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ProductForm = ({ uploadData, setUploadData }) => {
+const ProductForm = ({ inputData, setInputData, buttonText, onSubmit }) => {
   const classes = useStyles();
 
   const changeHandler = (e) => {
     const id = e.target.id;
     const value = e.target.value;
-    setUploadData((prevState) => ({ ...prevState, [id]: value }));
+    setInputData((prevState) => ({ ...prevState, [id]: value }));
+  };
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    onSubmit();
   };
 
   return (
-    <form className={classes.form}>
+    <form onSubmit={submitHandler} className={classes.form}>
       <TextField
-        value={uploadData.name}
+        value={inputData.name}
         onChange={changeHandler}
         id="name"
         size="small"
@@ -31,13 +36,16 @@ const ProductForm = ({ uploadData, setUploadData }) => {
         label="Product Name"
       />
       <TextField
-        value={uploadData.price}
+        value={inputData.price}
         onChange={changeHandler}
         id="price"
         size="small"
         variant="outlined"
         label="Price"
       />
+      <Button type="submit" variant="contained" sx={{ marginTop: "1rem" }}>
+        {buttonText}
+      </Button>
     </form>
   );
 };

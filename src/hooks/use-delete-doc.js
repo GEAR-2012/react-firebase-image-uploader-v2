@@ -1,7 +1,7 @@
-import { deleteDoc, doc, getDoc } from "firebase/firestore";
-import { deleteObject, ref } from "firebase/storage";
 import { useEffect, useState } from "react";
 import { db, storage } from "../firebase-config";
+import { deleteDoc, doc, getDoc } from "firebase/firestore";
+import { deleteObject, ref } from "firebase/storage";
 
 const useDeleteDoc = async (folderName, docId) => {
   const [deleted, setDeleted] = useState(false);
@@ -27,9 +27,9 @@ const useDeleteDoc = async (folderName, docId) => {
     //
     const deletePicturesFromStorage = async (folder, picNameList) => {
       const promiseArr = [];
-      picNameList.forEach((pic) => {
+      picNameList.forEach(async (pic) => {
         const itemRef = ref(storage, `${folder}/${pic}`);
-        const deleteTask = deleteObject(itemRef);
+        const deleteTask = await deleteObject(itemRef);
         promiseArr.push(deleteTask);
       });
       Promise.all(promiseArr).then(() => {
@@ -59,6 +59,7 @@ const useDeleteDoc = async (folderName, docId) => {
       }
     }
   }, [folderName, docId]);
+
   return deleted;
 };
 

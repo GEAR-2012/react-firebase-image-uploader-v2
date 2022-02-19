@@ -1,9 +1,10 @@
 import React, { useState } from "react";
+import { makeStyles } from "@mui/styles";
 import { Box, Grid, Rating, Typography } from "@mui/material";
-import useFirestoreListener from "../../hooks/use-firestore-listener";
 import ProgressCircular from "../UI/ProgressCircular";
 import ActionCard from "../UI/ActionCard";
-import { makeStyles } from "@mui/styles";
+import sortByFileName from "../functions/sortByFileName";
+import useFirestoreListener from "../../hooks/use-firestore-listener";
 
 const useStyles = makeStyles({
   card: {
@@ -51,9 +52,16 @@ const Home = () => {
         <Grid item xs={12} style={{ display: "flex", gap: 30, justifyContent: "space-around", flexWrap: "wrap" }}>
           {products.map((product) => {
             const title = product.name;
+            {
+              /* Placeholder url */
+            }
             let url = "https://plchldr.co/i/260x260?bg=8291c3&text=No%20Picture";
+
+            {
+              /* Url of first pic by name */
+            }
             if (product.pictureList.length > 0) {
-              url = product.pictureList[0].url;
+              url = sortByFileName(product.pictureList)[0].url;
             }
             const id = product.id;
             return (

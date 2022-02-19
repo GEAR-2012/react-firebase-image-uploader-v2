@@ -25,7 +25,7 @@ const PictureSelect = ({ folderName, docId }) => {
         // this way user can upload the same images multiple times
         const now = new Date();
         const unixTimeStamp = now.getTime();
-        const newFileName = file.name + "_" + unixTimeStamp;
+        const newFileName = file.name.split(".")[0] + "___" + unixTimeStamp;
         // object wich will hold unique file name & the file itself
         const fileObj = { name: newFileName, file };
         fileArr.push(fileObj);

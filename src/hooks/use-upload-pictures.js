@@ -1,9 +1,10 @@
+import { useEffect, useState } from "react";
+import { db, storage, timestamp } from "../firebase-config";
 import { arrayUnion, doc, updateDoc } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
-import { useEffect, useState } from "react";
-import { db, storage } from "../firebase-config";
 import { AppState } from "../state/app-context";
 
+// upload one picture at the time function
 const uploadPicture = (folder, fileObj, setProgressArr, index, docId) => {
   // get file object & file name from 'fileObj'
   const file = fileObj.file;
@@ -32,7 +33,7 @@ const uploadPicture = (folder, fileObj, setProgressArr, index, docId) => {
     () => {
       getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
         const urlObj = { name: fileName, url: downloadURL };
-        updateDoc(docRef, { pictureList: arrayUnion(urlObj) });
+        updateDoc(docRef, { pictureList: arrayUnion(urlObj), updatedAt: timestamp() });
       });
     }
   );

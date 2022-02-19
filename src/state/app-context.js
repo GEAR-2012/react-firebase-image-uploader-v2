@@ -8,6 +8,8 @@ const AppContextProvider = (props) => {
   // 'isSidebarOpen' to hold the open state of side menu
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
+  const currency = "£";
+
   // when the progress reaches the 100%, after a delay restet it to 0% (switch of progress bar)
   useEffect(() => {
     if (progress >= 100) {
@@ -24,6 +26,7 @@ const AppContextProvider = (props) => {
         setProgress,
         isSidebarOpen,
         setIsSidebarOpen,
+        currency,
       }}
     >
       {props.children}

@@ -1,6 +1,6 @@
-import { doc, setDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { db, timestamp } from "../firebase-config";
+import { doc, setDoc } from "firebase/firestore";
 
 const useSetDoc = async (collectionName, docData, docId) => {
   const [created, setCreated] = useState(false);
