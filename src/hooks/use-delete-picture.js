@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { db, storage } from "../firebase-config";
+import { db, storage, timestamp } from "../firebase-config";
 import { arrayRemove, doc, updateDoc } from "firebase/firestore";
 import { deleteObject, ref } from "firebase/storage";
 
@@ -11,6 +11,7 @@ const useDeletePicture = (folderName, docId, pic) => {
       const arrItem = { name, url };
       updateDoc(docRef, {
         pictureList: arrayRemove(arrItem),
+        updatedAt: timestamp(),
       });
     };
 
