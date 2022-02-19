@@ -5,8 +5,6 @@ const AppContext = createContext();
 const AppContextProvider = (props) => {
   // 'progress' to hold the percentage value of image upload progress
   const [progress, setProgress] = useState(0);
-  // 'filesToUpload' to hold the selected files & unique file names
-  const [filesToUpload, setFilesToUpload] = useState([]);
   // 'isSidebarOpen' to hold the open state of side menu
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 

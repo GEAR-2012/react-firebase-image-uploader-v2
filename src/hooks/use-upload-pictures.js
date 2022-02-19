@@ -1,4 +1,4 @@
-import { addDoc, arrayUnion, collection, doc, updateDoc } from "firebase/firestore";
+import { arrayUnion, doc, updateDoc } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { useEffect, useState } from "react";
 import { db, storage } from "../firebase-config";
@@ -11,13 +11,7 @@ const uploadPicture = (folder, fileObj, setProgressArr, index, docId) => {
 
   // References
   const storageRef = ref(storage, `${folder}/${fileName}`);
-  let docRef;
-  let collectionRef;
-  if (docId) {
-    docRef = doc(db, folder, docId);
-  } else {
-    collectionRef = collection(db, folder);
-  }
+  const docRef = doc(db, folder, docId);
 
   const uploadTask = uploadBytesResumable(storageRef, file);
 

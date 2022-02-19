@@ -2,7 +2,7 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
-import { CardActions, IconButton, ImageListItemBar } from "@mui/material";
+import { IconButton, ImageListItemBar } from "@mui/material";
 import { RiDeleteBin2Line } from "react-icons/ri";
 
 const MasonryImageList = ({ itemData, onDelete }) => {
@@ -19,7 +19,7 @@ const MasonryImageList = ({ itemData, onDelete }) => {
             />
             <ImageListItemBar
               sx={{
-                background: "linear-gradient(to top, rgba(0,0,0,0.7) 0%, " + "rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)",
+                background: "linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)",
               }}
               title={item.title}
               position="bottom"
