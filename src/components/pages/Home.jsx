@@ -52,14 +52,10 @@ const Home = () => {
         <Grid item xs={12} style={{ display: "flex", gap: 30, justifyContent: "space-around", flexWrap: "wrap" }}>
           {products.map((product) => {
             const title = product.name;
-            {
-              /* Placeholder url */
-            }
+            /* Placeholder url */
             let url = "https://plchldr.co/i/260x260?bg=8291c3&text=No%20Picture";
 
-            {
-              /* Url of first pic by name */
-            }
+            /* Url of first pic by name */
             if (product.pictureList.length > 0) {
               url = sortByFileName(product.pictureList)[0].url;
             }
